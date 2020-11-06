@@ -1,0 +1,388 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>소프트웨어공학</title>
+    <meta charset='utf-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <style>
+        /* default setting */
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        /* header */
+        header {
+            width: 100%;
+            position: relative;
+        }
+
+        /* 코로나 19 */
+        .header-logo {
+            width: 100%;
+            height: 7vh;
+            line-height: 7vh;
+            padding-left: 3vw;
+            color: white;
+            background-color: #333;
+        }
+
+        /* login */
+        .header-login-btn {
+            position: absolute;
+            height: 7vh;
+            line-height: 7vh;
+            top: 0;
+            right: 2vw;
+
+        }
+
+        .header-login-btn>input {
+            width: 100%;
+            font-size: 20px;
+            border-radius: 10%;
+            padding: 2px 5px;
+            display: inline-block;
+        }
+
+        /* btn content */
+
+        .content {
+            width: 90%;
+            margin: 0 auto;
+            text-align: center;
+        }
+    
+
+        caption {
+            margin-left: 0.5rem;
+            text-align: left;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        /* menu */
+        .menu-btn table {
+            width: 100%;
+            height: 8vh;
+            line-height: 8vh;
+            text-align: center;
+            border-collapse: collapse;
+        }
+
+
+        .menu-btn table tr td {
+            width: 50%;
+            border: solid black;
+            border-width: 0 0 1px 1px;
+        }
+
+        .menu-btn table tr td:first-child {
+            width: 50%;
+            border-width: 0 1px 1px 0;
+        }
+
+      
+        /* inquiry table */
+        
+        .inquiry-table {
+            width: 90%;
+            height: auto;
+            margin:0 auto;
+			margin-top:10px;
+            text-align: center;
+			position:relative;
+        }
+        
+        .inquiry-table table{
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .inquiry-table table th{
+            background-color:#E6E6E6;
+        }
+        .inquiry-table table tr th ,td{
+            width: 25%;
+            height: 5vh;
+            border: 1px solid black;
+            border-right : hidden;
+            border-left: hidden;
+            
+
+        }
+        
+        .inquiry-table-btn{
+			width:100%;
+        }
+        
+        .inquiry-table-btn>input {
+			float:right;
+            font-size: 20px;
+            color: white;
+            border : 0;
+            border-radius: 10%;
+			margin-top:1vh;
+            padding: 2px 5px;
+            background-color:#585858;
+        }
+        
+		/* modal-container */
+		.modal-container {
+			width:87%;
+			height:50%;
+			margin:0 auto;
+			position:fixed;
+			opacity:0;
+			z-index:-10;
+			background-color:#fff;
+			border:1px solid black;
+			border-radius:3px;
+			box-shadow:1px 1px 5px black;
+			text-align:left;
+			transition: opacity 0.3s;
+		}
+		
+		.modal-container > div > * {
+			margin: 5px 8px;
+		}
+		.modal-container > div > h3:last-child {
+			margin-top:50px;
+		}
+    </style>
+
+    <script>
+        function chg(e){
+            var place_a = ["강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구","동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"];
+            var place_b = ["가평군","고양시", "과천시","광명시","광주시","구리시","군포시","김포시","남양주시","동두천시","부천시","성남시", "수원시", "시흥시","안산시","안성시","안양시","양주시","양평군","여주시","연천군","오산시","용인시","의왕시","의정부시","이천시","파주시","평택시","포천시","하남시","화성시"];
+            var place_c = ["강화군","계양구","남동구","동구","미추홀구","부평구","서구","연수구","옹진군","중구"];
+            var place_d = ["강릉시","고성군","동해시","삼척시","속초시","양구군","양양군","영월군","원주시","인제군","정선군","철원군","춘천시","태백시","평창군","홍천군","화천군","횡성군"];
+            var place_e = ["계룡시","공주시","금산군","논산시","당진시","보령시","부여군","서산시","서천군","아산시","연기군","예산군","천안시","청양군","태안군","홍성군"];
+            var place_f = ["대덕구","동구","서구","유성구","중구"];
+            var place_g = ["괴산군","단양군","보은군","영동군","옥천군","음성군","제천시","증평군","진천군","청주시","충주시"];
+            var place_h = ["세종"];
+            var place_i = ["강서구","금정구","기장군","남구","동구","동래구","부산진구","북구","사상구","사하구","서구","수영구","연제구","영도구","중구","해운대구"];
+            var place_j = ["남구","동구","북구","울주군","중구"];
+            var place_k = ["남구","달서구","달성군","동구","북구","서구","수성구","중구"];
+            var place_l = ["경산시","경주시","고령군","구미시","군위군","김천시","문경시","봉화군","상주시","성주군","안동시","영덕군","영양군","영주시","영천시","예천군","울릉군","울진군","의성군","청도군","청송군","칠곡군","포항시"];
+            var place_m = ["거제시","거창군","고성군","김해시","남해군","밀양시","사천시","신청군","양산시","의령군","진주시","창녕군","창원시","통영시","하동군","함안군","함양군","합천군"];
+            var place_n = ["강진군","고흥군","곡성군","광양시","구례군","나주시","담양군","목포시","무안군","보성군","순천시","신안군","여수시","영광군","영암군","완도군","장성군","장흥군","진도군","함평군","해남군","화순군"];
+            var place_o = ["광산구","남구","동구","북구","서구"];
+            var place_p = ["고창군","군산시","김제시","남원시","무주군","부안군","순창군","완주군","익산시","임실군","장수군","전주시","정읍시","진안군"];
+            var place_q = ["서귀포시","제주시"];
+
+            var target = document.getElementById("시/군/구");
+
+            if(e.value == "서울") var d = place_a;
+            else if(e.value == "경기") var d = place_b;
+            else if(e.value == "인천") var d = place_c;
+            else if(e.value == "강원") var d = place_d;
+            else if(e.value == "충남") var d = place_e;
+            else if(e.value == "대전") var d = place_f;
+            else if(e.value == "충북") var d = place_g;
+            else if(e.value == "세종") var d = place_h;
+            else if(e.value == "부산") var d = place_i;
+            else if(e.value == "울산") var d = place_j;
+            else if(e.value == "대구") var d = place_k;
+            else if(e.value == "경북") var d = place_l;
+            else if(e.value == "경남") var d = place_m;
+            else if(e.value == "전남") var d = place_n;
+            else if(e.value == "광주") var d = place_o;
+            else if(e.value == "전북") var d = place_p;
+            else if(e.value == "제주") var d = place_q;
+            target.options.length = 0;
+
+            for(x in d){
+                var opt = document.createElement("option");
+                opt.value = d[x];
+                opt.innerHTML=d[x];
+                target.appendChild(opt);
+            }
+        }
+        </script>
+
+</head>
+
+<body>
+    <div>
+        <header>
+            <div class='header-logo'>
+                <h3>코로나 19</h3>
+            </div>
+            <div class='header-login-btn'>
+                <input type='button' value='login' />
+            </div>
+        </header>
+		<nav>
+			<div class='content'>
+				<div class='menu-btn'>
+					<table>
+						<tr>
+							<td><a href='#'>확진자 현황</a></td>
+							<td><a href='#'>확진자 동선 조회</a></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</nav>
+		<div class='modal-container'>
+       <h3>안뇽</h3>
+        </div>
+        
+		<div class = 'inquiry-table'>
+				<div class='modal-container'>
+					<div name='place'>
+						<h3>지역검색</h3>
+						<div class='drop-down'>
+						<select onchange="chg(this)">
+                            <option value="" selected disabled hidden>시/도</option>
+                            <option value="서울">서울</option>
+                            <option value="경기">경기</option>
+                            <option value="인천">인천</option>
+                            <option value="강원">강원</option>
+                            <option value="충남">충남</option>
+                            <option value="대전">대전</option>
+                            <option value="충북">충북</option>
+                            <option value="세종">세종</option>
+                            <option value="부산">부산</option>
+                            <option value="울산">울산</option>
+                            <option value="대구">대구</option>
+                            <option value="경북">경북</option>
+                            <option value="경남">경남</option>
+                            <option value="전남">전남</option>
+                            <option value="광주">광주</option>
+                            <option value="전북">전북</option>
+                            <option value="제주">제주</option>
+                        </select>
+
+                        <select id="시/군/구">
+                            <option value="" selected disabled hidden>시/군/구</option>
+                        </select>
+						</div>
+					</div>
+					<div name='date'>
+						<h3>날짜검색</h3>
+						
+						<div class='drop-down'>
+						<select name="시/도">
+							<option value="" selected disabled hidden>검색구분</option>
+							<option value="작성일">작성일</option>
+							<option value="동선">동선
+						</select>
+						</div>
+						<p>
+							<input type="date" id="date_start"> ~
+							<input type="date" id="date_end">
+						</p>
+					</div>
+				</div>
+				<script type="text/javascript">
+					var showModal = async (e) => {	
+						if (e.name == 'search' || e.id =='tr') {
+							var element = document.querySelector('.modal-container').style;
+							if (element.opacity == 0 && element.zIndex <=0){
+								element.opacity= '1';
+								element.zIndex = '10';
+							}else{
+								element.opacity= '0';
+								element.zIndex = '-10';
+							}
+						}
+				}
+                        
+				</script>
+				<table>
+				   <caption>확진자 동선조회</caption> 
+					<th>순번</th>
+					<th>확진자 넘버</th>
+					<th>지역</th>
+					<th>작성일</th>
+					<tr id="tr" onclick ="showModal(this);">
+						<td>6</td><td>23</td><td>저기</td><td>20-11-03</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+				</table>
+				
+				
+			<div class='inquiry-table-btn'>
+				<input type ='button' name='search' value='검색' onclick ="showModal(this);">
+			</div>
+			
+			
+		</div>
+	</div>
+   </body>
+ </html>
